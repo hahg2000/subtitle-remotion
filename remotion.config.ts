@@ -6,8 +6,24 @@
  */
 
 import { Config } from "@remotion/cli/config";
-import { enableTailwind } from '@remotion/tailwind-v4';
+import { enableTailwind } from "@remotion/tailwind-v4";
 
-Config.setVideoImageFormat("jpeg");
+Config.setVideoImageFormat("png");
 Config.setOverwriteOutput(true);
-Config.overrideWebpackConfig(enableTailwind);
+Config.overrideWebpackConfig((currentConfiguration) => {
+  const withTailwind = enableTailwind(currentConfiguration);
+
+  return {
+    ...withTailwind,
+    module: {
+      ...withTailwind.module,
+      rules: [
+        ...(withTailwind.module?.rules ?? []),
+        {
+          test: /\.ass$/i,
+          type: "asset/source",
+        },
+      ],
+    },
+  };
+});

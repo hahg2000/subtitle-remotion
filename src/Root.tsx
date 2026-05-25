@@ -6,12 +6,12 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
-        id="MyComp"
+        id="DanmakuVideo"
         component={MyComposition}
-        durationInFrames={60}
-        fps={30}
-        width={1280}
-        height={720}
+        durationInFrames={7200} // 根据弹幕最长时调大
+        fps={60}
+        width={1920}
+        height={1080}
       />
     </>
   );

@@ -7,6 +7,9 @@
   "private": true,
   "dependencies": {
     "@remotion/cli": "4.0.465",
+    "@remotion/fonts": "4.0.465",
+    "@remotion/media": "4.0.465",
+    "@remotion/media-utils": "4.0.465",
     "@remotion/tailwind-v4": "4.0.465",
     "ass-compiler": "^0.1.16",
     "react": "19.2.3",
@@ -26,7 +29,10 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "render:subtitle:transparent": "remotion render DramaSubtitleTransparent out/drama-subtitles-transparent.mov --codec=prores --image-format=png --pixel-format=yuva444p10le --prores-profile=4444"
   },
   "sideEffects": [
     "*.css"

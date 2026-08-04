@@ -1,4 +1,4 @@
-import { parse } from 'ass-compiler';
+import { parse } from "ass-compiler";
 
 export interface ParsedDanmaku {
   id: string;
@@ -25,14 +25,17 @@ const styleToColorMap: Record<string, string> = {
 };
 
 // 时间格式（00:00:01.50）转为秒
-export const getDanmakuData = (assText: string, fps: number = 60): ParsedDanmaku[] => {
+export const getDanmakuData = (
+  assText: string,
+  fps: number = 60,
+): ParsedDanmaku[] => {
   const parsed = parse(assText);
   const dialogues = parsed.events.dialogue;
 
   return dialogues.map((d, index) => {
     const startTimeSec = d.Start;
     const endTimeSec = d.End;
-    
+
     const startFrame = Math.round(startTimeSec * fps);
     const endFrame = Math.round(endTimeSec * fps);
     const durationInFrames = endFrame - startFrame;

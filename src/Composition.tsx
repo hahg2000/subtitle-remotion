@@ -1,6 +1,16 @@
-import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
+import {
+  AbsoluteFill,
+  OffthreadVideo,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+} from "remotion";
 import assText from "./danmaku.ass";
 import { getDanmakuData, type ParsedDanmaku } from "./parseAss";
+
+export type MyCompositionProps = {
+  videoSrc?: string;
+};
 
 const DanmakuItem: React.FC<{ data: ParsedDanmaku }> = ({ data }) => {
   const frame = useCurrentFrame();
@@ -13,8 +23,8 @@ const DanmakuItem: React.FC<{ data: ParsedDanmaku }> = ({ data }) => {
   const x = interpolate(
     relativeFrame,
     [0, data.durationInFrames], // 对应从动画开始到结束
-    [data.startX, data.endX],   // 对应 X 轴坐标从 1992 移动到 -72
-    { extrapolateRight: "clamp" }
+    [data.startX, data.endX], // 对应 X 轴坐标从 1992 移动到 -72
+    { extrapolateRight: "clamp" },
   );
 
   return (
@@ -24,7 +34,8 @@ const DanmakuItem: React.FC<{ data: ParsedDanmaku }> = ({ data }) => {
         top: `${data.top}px`,
         transform: `translateX(${x}px)`,
         fontSize: "36px", // 对应样式中的 Fontsize: 36
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif",
+        fontFamily:
+          "system-ui, -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif",
         whiteSpace: "nowrap",
         color: data.color, // 还原原版弹幕颜色
         fontWeight: "bold",
@@ -36,11 +47,21 @@ const DanmakuItem: React.FC<{ data: ParsedDanmaku }> = ({ data }) => {
   );
 };
 
-export const MyComposition = () => {
+export const MyComposition: React.FC<MyCompositionProps> = ({ videoSrc }) => {
   const danmakus = getDanmakuData(assText, 60);
 
   return (
     <AbsoluteFill>
+      {videoSrc ? (
+        <OffthreadVideo
+          src={staticFile(videoSrc)}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      ) : null}
       {danmakus.map((danmaku) => (
         <DanmakuItem key={danmaku.id} data={danmaku} />
       ))}

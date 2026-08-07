@@ -21,15 +21,15 @@ export const dramaSubtitleAssLines = {
   line003: {
     startMs: 7860,
     endMs: 11600,
-    text: "希望有谁能告诉我",
+    text: "如何做一个可靠的人",
   },
   line004: {
     startMs: 11630,
     endMs: 15530,
-    text: "如何做一个可靠的人",
+    text: "希望有谁能告诉我",
   },
   line005: {
-    startMs: 31530,
+    startMs: 31230,
     endMs: 39000,
     text: "不去打起雨伞 只待将自己淋湿 就连自己的存在也只觉得无所谓",
   },

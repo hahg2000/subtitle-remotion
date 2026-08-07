@@ -28,6 +28,7 @@ export type VerticalFlickerMoveOptions = {
   moveDistance: number;
   moveDirection: SubtitleMoveDirection;
   columnGap: CssLength;
+  softBlurPx: number;
 };
 
 export type VerticalFlickerMoveCharacterCue = {

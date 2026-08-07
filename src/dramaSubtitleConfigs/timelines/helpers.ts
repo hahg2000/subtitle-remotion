@@ -34,6 +34,15 @@ type CueOverrides = Record<
   Record<number, Partial<VerticalFlickerMoveCueInput>>
 >;
 
+export type VerticalCharacterMotion = Pick<
+  VerticalFlickerMoveCueInput,
+  | "atFrame"
+  | "animationDurationInFrames"
+  | "hiddenWindows"
+  | "moveDistance"
+  | "moveDirection"
+>;
+
 export type AutoVerticalTimelineOptions = {
   line: SubtitleEffectMatch;
   columns: string[];
@@ -44,6 +53,7 @@ export type AutoVerticalTimelineOptions = {
   hiddenWindows?: SubtitleHiddenFrameWindow[];
   moveDistance?: number;
   moveDirections?: SubtitleMoveDirection[];
+  columnMotionProfiles?: ReadonlyArray<ReadonlyArray<VerticalCharacterMotion>>;
   cueOverrides?: CueOverrides;
 };
 
@@ -97,6 +107,7 @@ export const defineAutoVerticalFlickerMoveTimeline = ({
   hiddenWindows = [],
   moveDistance = 16,
   moveDirections = ["right", "top", "left", "bottom"],
+  columnMotionProfiles,
   cueOverrides = {},
 }: AutoVerticalTimelineOptions): VerticalFlickerMoveTimeline => {
   if (
@@ -125,11 +136,36 @@ export const defineAutoVerticalFlickerMoveTimeline = ({
     );
   }
 
+  if (
+    columnMotionProfiles !== undefined &&
+    (columnMotionProfiles.length !== columns.length ||
+      columnMotionProfiles.some((profile) => profile.length === 0))
+  ) {
+    throw new Error(
+      `Vertical motion profile mismatch: expected ${columns.length} non-empty column profiles.`,
+    );
+  }
+
   validateCueOverrides(columns, cueOverrides);
 
   const lineStartFrame = Math.round((line.startMs / 1000) * fps);
   const lineEndFrame = Math.round((line.endMs / 1000) * fps);
   const durationInFrames = lineEndFrame - lineStartFrame;
+
+  columnMotionProfiles?.forEach((profile, columnIndex) => {
+    profile.forEach(({ atFrame }, characterIndex) => {
+      if (
+        !Number.isInteger(atFrame) ||
+        atFrame < 0 ||
+        atFrame >= durationInFrames
+      ) {
+        throw new Error(
+          `Invalid vertical character atFrame: column=${columnIndex}, character=${characterIndex}, atFrame=${atFrame}, lineDuration=${durationInFrames}.`,
+        );
+      }
+    });
+  });
+
   const characters = columns.map((column) => Array.from(column));
   const totalCharacters = characters.reduce(
     (total, column) => total + column.length,
@@ -146,15 +182,37 @@ export const defineAutoVerticalFlickerMoveTimeline = ({
       defineCharacterColumn({
         text,
         cues: characters[columnIndex].map((_, characterIndex) => {
-          const progress =
+          const globalProgress =
             totalCharacters <= 1
               ? 0
               : globalCharacterIndex / (totalCharacters - 1);
-          const atFrame = Math.round(
-            startFrame + (lastStartFrame - startFrame) * progress,
-          );
+          const columnProgress =
+            characters[columnIndex].length <= 1
+              ? 0
+              : characterIndex / (characters[columnIndex].length - 1);
           const moveDirection =
             moveDirections[globalCharacterIndex % moveDirections.length];
+          const motionProfile = columnMotionProfiles?.[columnIndex];
+          const motionProfilePosition = motionProfile
+            ? columnProgress * (motionProfile.length - 1)
+            : 0;
+          const motion = motionProfile
+            ? motionProfile[Math.round(motionProfilePosition)]
+            : undefined;
+          const previousMotion =
+            motionProfile?.[Math.floor(motionProfilePosition)];
+          const nextMotion = motionProfile?.[Math.ceil(motionProfilePosition)];
+          const atFrame =
+            previousMotion && nextMotion
+              ? Math.round(
+                  previousMotion.atFrame +
+                    (nextMotion.atFrame - previousMotion.atFrame) *
+                      (motionProfilePosition -
+                        Math.floor(motionProfilePosition)),
+                )
+              : Math.round(
+                  startFrame + (lastStartFrame - startFrame) * globalProgress,
+                );
           const override = cueOverrides[columnIndex]?.[characterIndex];
 
           globalCharacterIndex++;
@@ -165,6 +223,14 @@ export const defineAutoVerticalFlickerMoveTimeline = ({
             hiddenWindows,
             moveDistance,
             moveDirection,
+            ...(motion
+              ? {
+                  animationDurationInFrames: motion.animationDurationInFrames,
+                  hiddenWindows: motion.hiddenWindows,
+                  moveDistance: motion.moveDistance,
+                  moveDirection: motion.moveDirection,
+                }
+              : undefined),
             ...override,
           };
         }),

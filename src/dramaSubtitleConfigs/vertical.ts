@@ -18,7 +18,7 @@ const EUREKA_DEFAULT_VERTICAL_POSITION: DramaSubtitlePosition = {
 };
 
 const EUREKA_DEFAULT_VERTICAL_STYLE: DramaSubtitleTextStyle = {
-  letterSpacing: 4,
+  letterSpacing: 2,
 };
 
 const normalizeVisibleText = (text: string): string =>

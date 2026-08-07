@@ -23,14 +23,14 @@ const VERTICAL_EFFECT_DEFAULT_POSITION: DramaSubtitlePosition = {
 const VERTICAL_EFFECT_DEFAULT_STYLE: DramaSubtitleTextStyle = {
   // color: "#f8f9ff",
   color: "#ffffff",
-  fontSize: 43,
+  fontSize: 46,
   fontFamily:
     '"SimSun", "Yu Mincho", "Noto Serif CJK JP", "Noto Serif SC", SimSun, serif',
-  fontWeight: 400,
+  fontWeight: 500,
   lineHeight: 1,
   letterSpacing: 8,
   outlineColor: "#4057a6",
-  // outlineColor: "#f2e8e8",
+  // outlineColor: "#3f64ec",
   outlineWidth: 1,
   textShadow: [
     "0 0 5px rgba(30, 90, 255, 0.8)",
@@ -45,7 +45,8 @@ const RENDERER_FALLBACK_OPTIONS: VerticalFlickerMoveOptions = {
   hiddenWindows: [],
   moveDistance: 64,
   moveDirection: "left",
-  columnGap: 48,
+  columnGap: 44,
+  softBlurPx: 0.55,
 };
 
 const MOVE_DIRECTION_VECTORS: Record<
@@ -139,6 +140,13 @@ const VerticalFlickerMoveRenderer: React.FC<{
 }> = ({ timeline, options, frame, lineStartFrame, textStyle }) => {
   const columnGap =
     options.columnGap ?? Math.round(toNumber(textStyle.fontSize, 52) * 0.7);
+  const { softBlurPx } = options;
+
+  if (!Number.isFinite(softBlurPx) || softBlurPx < 0) {
+    throw new Error(
+      `Invalid softBlurPx: ${softBlurPx}. Expected a non-negative number.`,
+    );
+  }
 
   return (
     <div
@@ -181,6 +189,7 @@ const VerticalFlickerMoveRenderer: React.FC<{
                   marginInlineStart: toCssLength(cue.spacingBefore),
                   marginInlineEnd: toCssLength(cue.spacingAfter),
                   transform: `translate3d(${state.translateX}px, ${state.translateY}px, 0)`,
+                  filter: softBlurPx > 0 ? `blur(${softBlurPx}px)` : undefined,
                 }}
               >
                 {cue.text}

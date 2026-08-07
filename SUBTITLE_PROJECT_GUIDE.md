@@ -105,18 +105,18 @@ my-danmaku-video/
 
 ### 3.2 配置文件
 
-| 文件                                                             | 应该修改的内容                                   |
-| ---------------------------------------------------------------- | ------------------------------------------------ |
-| `src/dramaSubtitleConfigs/media.ts`                              | ASS、视频、图片序列                              |
-| `src/dramaSubtitleConfigs/assLines.ts`                           | output-zh.ass 全部 24 句的时间、文本和稳定编号   |
-| `src/dramaSubtitleConfigs/horizontal.ts`                         | 普通横排位置、默认样式、说话人样式、特定横排句子 |
-| `src/dramaSubtitleConfigs/vertical.ts`                           | 竖排句子匹配、整句位置、时间轴注册               |
-| `src/dramaSubtitleConfigs/presets/eurekaLine007FlickerPreset.ts` | Eureka line007 人工逐帧参数，不包含具体文字      |
-| `src/dramaSubtitleConfigs/timelines/eureka.ts`                  | 《Eureka》24 句竖排分栏、逐字帧和单句覆盖        |
-| `src/dramaSubtitleConfigs/timelines/helpers.ts`                  | 自动初始时间轴、逐字覆盖和配置类型               |
-| `src/dramaSubtitleConfigs/timelines/eurekaLine007JapaneseReference.ts` | Eureka line007 原日文参考，不参与当前渲染 |
-| `src/dramaSubtitleConfigs/conversation.ts`                       | 聊天场景、参与者和聊天句子                       |
-| `src/dramaSubtitleConfigs/index.ts`                              | 汇总三类句子匹配规则                             |
+| 文件                                                                   | 应该修改的内容                                   |
+| ---------------------------------------------------------------------- | ------------------------------------------------ |
+| `src/dramaSubtitleConfigs/media.ts`                                    | ASS、视频、图片序列                              |
+| `src/dramaSubtitleConfigs/assLines.ts`                                 | output-zh.ass 全部 24 句的时间、文本和稳定编号   |
+| `src/dramaSubtitleConfigs/horizontal.ts`                               | 普通横排位置、默认样式、说话人样式、特定横排句子 |
+| `src/dramaSubtitleConfigs/vertical.ts`                                 | 竖排句子匹配、整句位置、时间轴注册               |
+| `src/dramaSubtitleConfigs/presets/eurekaLine007FlickerPreset.ts`       | Eureka line007 人工逐帧参数，不包含具体文字      |
+| `src/dramaSubtitleConfigs/timelines/eureka.ts`                         | 《Eureka》24 句竖排分栏、逐字帧和单句覆盖        |
+| `src/dramaSubtitleConfigs/timelines/helpers.ts`                        | 自动初始时间轴、逐字覆盖和配置类型               |
+| `src/dramaSubtitleConfigs/timelines/eurekaLine007JapaneseReference.ts` | Eureka line007 原日文参考，不参与当前渲染        |
+| `src/dramaSubtitleConfigs/conversation.ts`                             | 聊天场景、参与者和聊天句子                       |
+| `src/dramaSubtitleConfigs/index.ts`                                    | 汇总三类句子匹配规则                             |
 
 ### 3.3 特效实现文件
 
@@ -475,13 +475,14 @@ export const horizontalSubtitleEffectAssignments = [];
 
 竖排字幕的默认值按作用域命名：
 
-| 名称 | 作用域 |
-| ---- | ------ |
-| `OVERLAY_BASE_STYLE` | 所有字幕进入特效前的基础样式 |
-| `VERTICAL_EFFECT_DEFAULT_STYLE` | 所有 `verticalFlickerMove` 字幕的特效默认样式 |
-| `RENDERER_FALLBACK_OPTIONS` | 单字和 assignment 都未提供动画参数时的最终兜底 |
-| `EUREKA_DEFAULT_VERTICAL_POSITION` / `EUREKA_DEFAULT_VERTICAL_STYLE` | 仅用于《Eureka》全部竖排句子 |
-| `timelineOptions` / `cueOverrides` | 当前歌曲的整句自动参数和单字覆盖 |
+| 名称                                                                 | 作用域                                           |
+| -------------------------------------------------------------------- | ------------------------------------------------ |
+| `OVERLAY_BASE_STYLE`                                                 | 所有字幕进入特效前的基础样式                     |
+| `VERTICAL_EFFECT_DEFAULT_STYLE`                                      | 所有 `verticalFlickerMove` 字幕的特效默认样式    |
+| `RENDERER_FALLBACK_OPTIONS`                                          | 单字和 assignment 都未提供动画参数时的最终兜底   |
+| `EUREKA_DEFAULT_VERTICAL_POSITION` / `EUREKA_DEFAULT_VERTICAL_STYLE` | 仅用于《Eureka》全部竖排句子                     |
+| `timelineOptions` / `cueOverrides`                                   | 当前歌曲的整句自动参数和单字覆盖                 |
+| `eurekaMotionProfiles.ts`                                            | 《Eureka》逐字出现帧、方向、距离、时长和闪烁窗口 |
 
 ### 10.1 一首歌一个配置文件
 
@@ -633,14 +634,16 @@ spacingAfter: "8px",
 ```ts
 effectOptions: {
   columnGap: 40,
+  softBlurPx: 0.35,
 }
 ```
 
 `columnGap` 是列与列之间的距离，不是同列字与字的距离。
+`softBlurPx` 用于柔化字形、描边和发光边缘，默认值为 `0.35`；设置为 `0` 可以关闭柔化。
 
 ### 10.8 自动初始参数和单句覆盖
 
-除 `line007` 外，初始时间轴会把字符均匀分布在 ASS 句子持续时间内，默认闪两次、移动 16px、动画 16 帧，方向按右、上、左、下循环。可以在对应配置块的 `timelineOptions` 中覆盖生成参数：
+除 `line007` 外，初始时间轴会把字符均匀分布在 ASS 句子持续时间内，默认不隐藏字符、移动 16px、动画 16 帧，方向按右、上、左、下循环。可以在对应配置块的 `timelineOptions` 中覆盖生成参数：
 
 ```ts
 defineEurekaAutoLine({
@@ -651,10 +654,28 @@ defineEurekaAutoLine({
     moveDistance: 24,
     endPaddingInFrames: 12,
     moveDirections: ["left", "top"],
-    cueOverrides: {},
+    cueOverrides: {
+      0: {
+        0: {atFrame: 5}, // 第一栏第一个字在当前句第 5 帧出现
+        1: {atFrame: 12},
+      },
+    },
   },
 }),
 ```
+
+`atFrame` 相对于当前 ASS 句子的起始帧。未写入 `cueOverrides` 的字符继续使用自动生成时间；需要逐字精修时，可以同时覆盖该字的出现帧和动画参数。
+
+《Eureka》除 `line007` 外的句子都会加载 `timelines/eurekaMotionProfiles.ts`。该文件把出现帧和动画参数保存在同一个元组中：
+
+```ts
+// [出现帧, 移动方向, 移动距离, 动画帧数, 闪烁模式]
+[6, "bottom", 17, 19, 0];
+```
+
+`line001`～`line005` 按中文字符直接保存，一项就是一个中文字。`line006`、`line008`～`line024` 按原日文参考字符槽位保存；由于中日文字数不同，中文会根据字符在同栏中的相对位置插值出现帧，并采样最接近的日文动画参数。每栏第一个元组的 `atFrame` 是该栏的起始出现帧，最后一个元组的 `atFrame` 是结束出现帧，因此不再单独配置 `columnFrameRanges`。`line007` 继续使用人工校准的 preset。
+
+单字参数优先级从低到高为：渲染器兜底值、自动时间轴默认值、原视频运动 profile、`cueOverrides`。因此需要人工修正某个中文字时，仍然只需在 `eureka.ts` 对应句子的 `cueOverrides[列索引][字索引]` 中填写参数。
 
 整句位置、样式和列间距直接写在同一个配置块中，与 `timelineOptions` 同级：
 

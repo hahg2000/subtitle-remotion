@@ -18,40 +18,43 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
     },
     cues: [
       {
-        atFrame: 1,
-        hiddenWindows: [{ startFrame: 1, durationInFrames: 1 }],
-        moveDistance: 5,
-        moveDirection: "right",
-      },
-      {
-        atFrame: 1,
+        atFrame: 0,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
         ],
-        moveDistance: 15,
+        moveDistance: 5,
+        moveDirection: "right",
+      },
+      {
+        atFrame: 2,
+        hiddenWindows: [
+          { startFrame: 1, durationInFrames: 1 },
+          { startFrame: 3, durationInFrames: 1 },
+        ],
+        moveDistance: 10,
         moveDirection: "top",
         animationDurationInFrames: 10,
       },
       {
-        atFrame: 4,
+        atFrame: 5,
         hiddenWindows: [{ startFrame: 1, durationInFrames: 1 }],
         animationDurationInFrames: 16,
         moveDirection: "left",
         moveDistance: 17,
       },
       {
-        atFrame: 13,
+        atFrame: 14,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
         ],
         moveDirection: "bottom",
-        animationDurationInFrames: 12,
+        animationDurationInFrames: 10,
         moveDistance: 14,
       },
       {
-        atFrame: 19,
+        atFrame: 20,
         moveDirection: "right",
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
@@ -61,13 +64,13 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 16,
       },
       {
-        atFrame: 55,
+        atFrame: 56,
         moveDirection: "top",
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
         ],
-        moveDistance: 18,
+        moveDistance: 10,
         animationDurationInFrames: 20,
       },
     ],
@@ -77,7 +80,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
   {
     cues: [
       {
-        atFrame: 62,
+        atFrame: 63,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
@@ -87,14 +90,14 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 16,
       },
       {
-        atFrame: 72,
+        atFrame: 73,
         animationDurationInFrames: 12,
         moveDirection: "bottom",
         moveDistance: 15,
         hiddenWindows: [{ startFrame: 1, durationInFrames: 1 }],
       },
       {
-        atFrame: 75,
+        atFrame: 76,
         moveDistance: 15,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
@@ -103,8 +106,8 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 17,
       },
       {
-        atFrame: 77,
-        moveDistance: 15,
+        atFrame: 78,
+        moveDistance: 10,
         animationDurationInFrames: 15,
         moveDirection: "top",
         hiddenWindows: [
@@ -113,7 +116,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 79,
+        atFrame: 80,
         animationDurationInFrames: 16,
         moveDistance: 16,
         moveDirection: "right",
@@ -123,10 +126,10 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 79,
+        atFrame: 80,
         animationDurationInFrames: 16,
         moveDistance: 16,
-        moveDirection: "right",
+        moveDirection: "bottom",
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
@@ -139,7 +142,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
   {
     cues: [
       {
-        atFrame: 112,
+        atFrame: 113,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
@@ -149,14 +152,14 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 16,
       },
       {
-        atFrame: 115,
+        atFrame: 116,
         animationDurationInFrames: 13,
         moveDirection: "left",
         moveDistance: 20,
         hiddenWindows: [{ startFrame: 1, durationInFrames: 1 }],
       },
       {
-        atFrame: 120,
+        atFrame: 121,
         moveDistance: 13,
         moveDirection: "top",
         hiddenWindows: [
@@ -166,7 +169,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 16,
       },
       {
-        atFrame: 125,
+        atFrame: 126,
         moveDistance: 13,
         animationDurationInFrames: 16,
         moveDirection: "right",
@@ -176,7 +179,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 127,
+        atFrame: 128,
         animationDurationInFrames: 15,
         moveDistance: 14,
         moveDirection: "bottom",
@@ -186,9 +189,9 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 132,
+        atFrame: 133,
         animationDurationInFrames: 16,
-        moveDistance: 14,
+        moveDistance: 10,
         moveDirection: "left",
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
@@ -196,12 +199,12 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 140,
-        animationDurationInFrames: 14,
-        moveDistance: 13,
+        atFrame: 141,
+        animationDurationInFrames: 20,
+        moveDistance: 10,
         moveDirection: "top",
         // 负数表示与上方字符靠近 3px。
-        spacingBefore: -3,
+        // spacingBefore: -3,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
@@ -214,7 +217,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
   {
     cues: [
       {
-        atFrame: 158,
+        atFrame: 159,
         hiddenWindows: [
           { startFrame: 1, durationInFrames: 1 },
           { startFrame: 3, durationInFrames: 1 },
@@ -224,7 +227,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 14,
       },
       {
-        atFrame: 164,
+        atFrame: 165,
         animationDurationInFrames: 16,
         moveDirection: "left",
         moveDistance: 13,
@@ -234,7 +237,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 170,
+        atFrame: 171,
         moveDistance: 21,
         moveDirection: "bottom",
         hiddenWindows: [
@@ -244,7 +247,7 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         animationDurationInFrames: 16,
       },
       {
-        atFrame: 176,
+        atFrame: 177,
         moveDistance: 13,
         animationDurationInFrames: 16,
         moveDirection: "right",
@@ -254,8 +257,8 @@ export const eurekaLine007FlickerPreset = defineVerticalFlickerMovePreset([
         ],
       },
       {
-        atFrame: 182,
-        animationDurationInFrames: 17,
+        atFrame: 183,
+        animationDurationInFrames: 20,
         moveDistance: 15,
         moveDirection: "left",
         hiddenWindows: [
